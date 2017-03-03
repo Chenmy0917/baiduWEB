@@ -1,97 +1,93 @@
-
-<!-- saved from url=(0053)https://tobiaschan.github.io/BaiduJs/task3/task3.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
-    <title>IFE JavaScript Task 03</title>
-  </head>
+
+  <title>IFE JavaScript Task 03</title>
+</head>
 <body>
 
-  <ul id="source">
-    <li>北京空气质量：<b>90</b></li>
-    <li>上海空气质量：<b>70</b></li>
-    <li>天津空气质量：<b>80</b></li>
-    <li>广州空气质量：<b>50</b></li>
-    <li>深圳空气质量：<b>40</b></li>
-    <li>福州空气质量：<b>32</b></li>
-    <li>成都空气质量：<b>90</b></li>
-  </ul>
+<ul id="source">
+  <li>北京空气质量：<b>90</b></li>
+  <li>上海空气质量：<b>70</b></li>
+  <li>天津空气质量：<b>80</b></li>
+  <li>广州空气质量：<b>50</b></li>
+  <li>深圳空气质量：<b>40</b></li>
+  <li>福州空气质量：<b>32</b></li>
+  <li>成都空气质量：<b>90</b></li>
+</ul>
 
-  <ul id="resort">
-  </ul>
+<ul id="resort">
+</ul>
 
-  <button id="sort-btn">排序</button>
+<button id="sort-btn">排序</button>
 
 <script type="text/javascript">
-
-/**
- * getData方法
- * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
- * 返回一个数组，格式见函数中示例
- */
-function getData() {
-  /*
-  coding here
-  */
-  var list = document.getElementById('source');
-  var data = [];
-  for(var i = 0; i < list.childElementCount; i++){
-    var li = list.children[i];
-    var city = li.innerHTML.split('空气质量：')[0];
-    var quality = Number(li.children[0].innerHTML);
-    data.push([city,quality]);
-  }
-  /*
-  data = [
-    ["北京", 90],
-    ["北京", 90]
-    ……
-  ]
-  */
-  return data;
-}
-
-/**
- * sortAqiData
- * 按空气质量对data进行从小到大的排序
- * 返回一个排序后的数组
- */
-function sortAqiData(data) {
-  data.sort(function(a,b){
-    return a[1]-b[1];
-  });
-  return data;
-}
-
-/**
- * render
- * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
- * 格式见ul中的注释的部分
- */
-function render(data) {
-  var Num = ['一','二','三','四','五','六','七'];
-  var list = document.getElementById('resort');
-  var items = "";
-  for(var i = 0; i < data.length; i++){
-    items += "<li>第" + Num[i] + "名 - " + data[i][0] + "空气质量：" + "<b>" + data[i][1] + "</b></li>";
-  }
-  list.innerHTML = items;
-}
-
-function btnHandle() {
-  var aqiData = getData();
-  aqiData = sortAqiData(aqiData);
-  render(aqiData);
-}
-
-function init() {
-  // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
-//    var but = documentElementById("aqi-btn");
-//    but.onclick = btnHandle();
-    document.getElementById('sort-btn').addEventListener("click",btnHandle);
-}
-
-init();
-
+    /**
+     * getData方法
+     * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+     * 返回一个数组，格式见函数中示例
+     */
+    function getData() {
+      /*
+       coding here
+       */
+        var list = document.getElementById('source');
+        var li = list.getElementsByTagName("li");//将ul中的li构建成数组
+        var data = [];
+        for(var i = 0; i < li.length; i++){//childElementCount返回元素的子元素数量
+//            var li = list.children[i];
+            var city = li[i].innerHTML.split('空气质量：')[0];//分隔符split，将参数前后分来形成数组
+            var quality = Number(li[i].children[0].innerHTML);//将字符串改为number类型，因为下面的示例中的90是数字类型
+            data.push([city,quality]);//将参数添加到data数组末尾，注意如果是二维数组要将两个参数作为一个参数传进push方法
+        }
+        console.log(data);
+      /*
+       data = [
+       ["北京", 90],
+       ["北京", 90]
+       ……
+       ]
+       */
+        return data;
+    }
+    /**
+     * sortAqiData
+     * 按空气质量对data进行从小到大的排序
+     * 返回一个排序后的数组
+     */
+    function sortAqiData(data) {
+        data.sort(function(a,b){//sort方法用来排序，传进来的a，b是data数组中的一个子元素
+            return a[1]-b[1];//a[1]是data数组中的一个元素的第二位，就是代表空气质量的数字
+        });
+        console.log(data);
+       return data;
+    }
+    /**
+     * render
+     * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+     * 格式见ul中的注释的部分
+     */
+    function render(data) {
+        var Num = ['一','二','三','四','五','六','七'];
+        var list = document.getElementById('resort');
+        var items = [];
+        for(var i = 0; i < data.length; i++){
+            items[i] = '第' + Num[i] + '名 ' + data[i][0] + '：' +  data[i][1];
+            var li = document.createElement('li');
+            li.innerHTML = items[i];
+            list.appendChild(li);
+        }
+        console.log(items);
+    }
+    function btnHandle() {
+        var aqiData = getData();
+        aqiData = sortAqiData(aqiData);
+        render(aqiData);
+    }
+    function init() {
+        // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+        document.getElementById('sort-btn').addEventListener("click",btnHandle);
+    }
+    init();
 </script>
 
-</body></html>
+</body>
+</html>
