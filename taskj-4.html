@@ -26,16 +26,22 @@
 <script type="text/javascript">
     var list = document.getElementById("display");
     var enter = document.getElementById("enter");
+     function del(){
+        //console.log(this);
+        this.remove(this);//自己删除自己
+    }
     function leftEnter(){
         var first = list.childNodes[0];
         var li = document.createElement("li");
         li.innerText = enter.value;
+        li.onclick = del;
         list.insertBefore(li,first);
         enter.value = '';
     }
     function rightEnter(){
         var li = document.createElement("li");
         li.innerText = enter.value;
+        li.onclick = del;
         list.appendChild(li);
         enter.value = '';
     }
