@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>taskj-4</title>
+    <style>
+    ul{
+        float: left;
+    }
+    li{
+        list-style: none;
+        float:left;
+        background-color: red;
+        margin-left:10px;
+    }
+    </style>
+</head>
+<body>
+<input id="enter" type="text" name="number" size="30">
+<button id="leftEnter">左侧入</button>
+<button id="rightEnter">右侧入</button>
+<button id="leftExit">左侧出</button>
+<button id="rightExit">右侧出</button>
+<div id="text"></div>
+<ul id="display"></ul>
+<script type="text/javascript">
+    var list = document.getElementById("display");
+    var enter = document.getElementById("enter");
+    function leftEnter(){
+        var first = list.childNodes[0];
+        var li = document.createElement("li");
+        li.innerText = enter.value;
+        list.insertBefore(li,first);
+        enter.value = '';
+    }
+    function rightEnter(){
+        var li = document.createElement("li");
+        li.innerText = enter.value;
+        list.appendChild(li);
+        enter.value = '';
+    }
+    function leftExit(){
+        list.removeChild(list.childNodes[0]);
+    }
+    function rightExit(){
+        console.log(list.lastChild);
+        list.removeChild(list.lastChild);
+    }
+    
+    function init(){
+        var lEnter = document.getElementById("leftEnter");
+        lEnter.onclick = leftEnter;
+        var rEnter = document.getElementById("rightEnter");
+        rEnter.onclick = rightEnter;
+        var lExit = document.getElementById("leftExit");
+        lExit.onclick = leftExit;
+        var rExit = document.getElementById("rightExit");
+        rExit.onclick = rightExit;
+    }
+
+    init();
+</script>
+</body>
+</html>
