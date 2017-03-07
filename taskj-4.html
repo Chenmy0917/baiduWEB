@@ -4,10 +4,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>taskj-4</title>
     <style>
-    ul{
-        float: left;
-    }
     li{
+        width: auto;
+        height:20px;
         list-style: none;
         float:left;
         background-color: red;
@@ -16,7 +15,7 @@
     </style>
 </head>
 <body>
-<input id="enter" type="number" name="number" placeholde="请输入数字" size="30">
+<input id="enter" type="number" name="number" placeholder="请输入数字" ><!--placeholder为占位符-->
 <button id="leftEnter">左侧入</button>
 <button id="rightEnter">右侧入</button>
 <button id="leftExit">左侧出</button>
@@ -24,47 +23,44 @@
 <div id="text"></div>
 <ul id="display"></ul>
 <script type="text/javascript">
-    var list = document.getElementById("display");
+    var arr = new Array();
     var enter = document.getElementById("enter");
-     function del(){
-        //console.log(this);
-        this.remove(this);//自己删除自己
+    document.getElementById("leftEnter").onclick = function(){
+        arr.unshift(enter.value);
+        enter.value = null;
+        create();
+        //console.log(arr);
+    };
+    document.getElementById("rightEnter").onclick = function(){
+        arr.push(enter.value);
+        enter.value = null;
+        create();
+        //console.log(arr);
+    } 
+    document.getElementById("leftExit").onclick = function(){
+        arr.shift(enter.value);
+        enter.value = null;
+        create();
+        //console.log(arr);
+    } 
+    document.getElementById("rightExit").onclick = function(){
+        arr.pop(enter.value);
+        enter.value = null;
+        create();
+        //console.log(arr);
+    } 
+    function create(){
+        var list = document.getElementById("display");
+        list.innerHTML = null;
+        for(var i = 0; i < arr.length; i++){
+            var li = document.createElement("li");
+            list.appendChild(li);
+            li.innerText = arr[i];
+            li.onclick = function(){
+                this.remove(this);
+            }            
+        }
     }
-    function leftEnter(){
-        var first = list.childNodes[0];
-        var li = document.createElement("li");
-        li.innerText = enter.value;
-        li.onclick = del;
-        list.insertBefore(li,first);
-        enter.value = '';
-    }
-    function rightEnter(){
-        var li = document.createElement("li");
-        li.innerText = enter.value;
-        li.onclick = del;
-        list.appendChild(li);
-        enter.value = '';
-    }
-    function leftExit(){
-        list.removeChild(list.childNodes[0]);
-    }
-    function rightExit(){
-        console.log(list.lastChild);
-        list.removeChild(list.lastChild);
-    }
-    
-    function init(){
-        var lEnter = document.getElementById("leftEnter");
-        lEnter.onclick = leftEnter;
-        var rEnter = document.getElementById("rightEnter");
-        rEnter.onclick = rightEnter;
-        var lExit = document.getElementById("leftExit");
-        lExit.onclick = leftExit;
-        var rExit = document.getElementById("rightExit");
-        rExit.onclick = rightExit;
-    }
-
-    init();
 </script>
 </body>
 </html>
