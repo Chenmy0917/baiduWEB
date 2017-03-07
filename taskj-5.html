@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>taskj-5</title>
+    <style>
+        li{
+            width: 20px;
+            list-style: none;
+            float:left;
+            background-color: red;
+            margin-left:10px;
+        }
+    </style>
+</head>
+<body>
+    <input id="enter" type="number" name="number" value="10" placeholder="10-60" min=10 max=60 ><!--placeholder为占位符-->
+    <button id="leftEnter">左侧入</button>
+    <button id="rightEnter">右侧入</button>
+    <button id="leftExit">左侧出</button>
+    <button id="rightExit">右侧出</button>
+    <button id="sort">排序</button>
+    <ul id="display"></ul>
+    <script type="text/javascript">
+        var limit = 5;
+        var arr = new Array();
+        var enter = document.getElementById("enter");
+        var list = document.getElementById("display");
+        function judge(data){
+            if(data >= 10 && data <= 60)
+                return true;
+            else
+                return false;
+        }
+
+        document.getElementById("leftEnter").onclick = function(){
+            if(judge(enter.value) && arr.length < limit){
+                arr.unshift(enter.value);
+                enter.value = null;
+                create();
+            }
+            else{
+                alert("请输入在10-60之间的数字并且输入的次数不能超过" + limit +"次");
+                enter.value = null;
+            }
+        }
+        document.getElementById("rightEnter").onclick = function(){
+            if(judge(enter.value) && arr.length < limit){
+                arr.push(enter.value);
+                enter.value = null;
+                create();
+            }
+            else{
+                alert("请输入在10-60之间的数字并且输入的次数不能超过limit次");
+                enter.value = null;
+            }
+        } 
+        document.getElementById("leftExit").onclick = function(){
+            arr.shift(enter.value);
+            enter.value = null;
+            create();
+        } 
+        document.getElementById("rightExit").onclick = function(){
+            arr.pop(enter.value);
+            enter.value = null;
+            create();
+        } 
+        document.getElementById("sort").onclick = function(){
+            arr.sort();
+            //console.log(arr);
+            create();
+        }
+
+        function create(){
+            //var list = document.getElementById("display");
+            list.innerHTML = null;
+            for(var i = 0; i < arr.length; i++){
+                var li = document.createElement("li");
+                list.appendChild(li);
+                li.style.height = arr[i] + 'px';
+                li.style.marginTop = 60-arr[i] + 'px';
+                li.onclick = function(){
+                    this.remove(this);
+                    arr.length--;
+                }            
+            }
+        }        
+    </script>
+</body>
+</html>
